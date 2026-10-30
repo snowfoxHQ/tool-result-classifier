@@ -1,4 +1,4 @@
-﻿import { readFileSync, readdirSync } from "node:fs";
+﻿import { readFileSync, readdirSync, statSync } from "node:fs";
 import { zstdDecompressSync } from "node:zlib";
 
 const ZSTD_MAGIC = Buffer.from([0x28, 0xb5, 0x2f, 0xfd]);
@@ -23,10 +23,15 @@ export function readSessionFile(path: string): string {
   return isZstd ? decodeMultiFrameZstd(raw).toString("utf8") : raw.toString("utf8");
 }
 
-export function* walkZstd(dir: string): Generator<string> {
-  for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    const p = `${dir}/${entry.name}`;
+export function* walkZstd(target: string): Generator<string> {
+  const st = statSync(target);
+  if (st.isFile()) {
+    if (target.endsWith(".zstd") || target.endsWith(".jsonl")) yield target;
+    return;
+  }
+  for (const entry of readdirSync(target, { withFileTypes: true })) {
+    const p = `${target}/${entry.name}`;
     if (entry.isDirectory()) yield* walkZstd(p);
-    else if (entry.name.endsWith(".zstd")) yield p;
+    else if (entry.name.endsWith(".zstd") || entry.name.endsWith(".jsonl")) yield p;
   }
 }

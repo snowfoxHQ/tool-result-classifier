@@ -5,6 +5,7 @@ interface DshEvent {
   data?: {
     name?: string;
     callId?: string;
+    toolCallId?: string;
     message?: {
       toolCallId?: string;
       isError?: boolean;
@@ -27,7 +28,8 @@ export function createDshAdapter(events: unknown[]): Adapter {
       return (raw as DshEvent)?.type === "tool/result";
     },
     extractToolName(raw) {
-      const id = (raw as DshEvent)?.data?.message?.toolCallId;   // ← 从 message 里取
+      const d = (raw as DshEvent)?.data;
+      const id = d?.message?.toolCallId ?? d?.toolCallId;
       return (id && callNames.get(id)) || "unknown";
     },
     extractText(raw) {

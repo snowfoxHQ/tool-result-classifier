@@ -1,0 +1,6 @@
+{"type":"tool/call","data":{"callId":"call_demo_1","name":"pwsh","arguments":"{\"command\":\"npm test\"}"}}
+{"type":"tool/result","data":{"toolCallId":"call_demo_1","message":{"isError":false,"content":[{"type":"text","text":"[stderr]\nAssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n    at triggerUncaughtException (node:internal/process/execution:1:1)\n[exit code: 1]"}]}}}
+{"type":"tool/call","data":{"callId":"call_demo_2","name":"read","arguments":"{\"path\":\"calc.js\"}"}}
+{"type":"tool/result","data":{"toolCallId":"call_demo_2","message":{"isError":false,"content":[{"type":"text","text":"module.exports = (a, b) => a + b;"}]}}}
+{"type":"tool/call","data":{"callId":"call_demo_3","name":"pwsh","arguments":"{\"command\":\"echo done\"}"}}
+{"type":"tool/result","data":{"toolCallId":"call_demo_3","message":{"isError":false,"content":[{"type":"text","text":"done\n[exit code: 0]"}]}}}
