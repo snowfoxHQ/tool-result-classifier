@@ -1,0 +1,25 @@
+name: Publish to npm
+
+on:
+  release:
+    types: [published] # 当你在 GitHub 发布 Release 时触发
+
+permissions:
+  id-token: write # 必须：允许获取 OIDC 令牌
+  contents: read  # 必须：允许读取仓库代码
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*' # 推荐用 LTS 版本，或者写 '22'
+          registry-url: 'https://registry.npmjs.org'
+          
+      - run: npm install
+      
+      # 注意：这里去掉了 env 环境变量，纯靠 OIDC 认证
+      - run: npm publish

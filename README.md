@@ -28,3 +28,12 @@ npx tsx -e "import { scan } from './src/cli/scan.ts'; scan('test/fixtures/dsh/sy
 ## 状态
 
 实验性。适配器目前只有 dsh。下一步：`--suspicious`（量化 `isError` 漏判率）。
+
+## Development / 开发测试
+
+```bash
+# 安装依赖
+npm install
+
+# 运行合成数据测试（验证多帧解码与判定逻辑）
+node --test --experimental-test-isolation=none
